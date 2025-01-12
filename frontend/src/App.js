@@ -2,9 +2,15 @@ import Home from './Home';
 import Resource from './Resource';
 import MoodTracker from './MoodTracker';
 import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+import Navbar from './Navbar';
+import Community from './component/Community';
+import Aboutus from './Aboutus';
+import Contact from './Contact';
 import EmptyPage from './EmptyPage';
 import { SearchBar } from './component/SearchBar';
 import { CategorySection } from './component/CategorySection';
+import { useState } from 'react';
 // import { fetchResources } from './api/resources';
 import { 
   AlertCircle, 
@@ -22,30 +28,25 @@ import {
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   return (
     <div>
+      
       <Router>
-        <nav>
-          <ul className='flex m-2'>
-            <li className='m-2'>
-              <Link to="/">Home</Link>
-            </li>
-            <li className='m-2'>
-              <Link to="/mood-tracker">Mood Tracker</Link>
-            </li>
-            <li className='m-2'><Link to="/resource">Resource</Link></li>
-            <li className='m-2'><Link to="/search-bar">SearchBar</Link></li>
-            <li className='m-2'><Link to="/category-section">CategorySection</Link></li>
-          </ul>
-        </nav>
+      <Navbar 
+          setIsPopupOpen={setIsPopupOpen}
+      />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home 
+            isPopupOpen={isPopupOpen}
+            setIsPopupOpen={setIsPopupOpen}
+          />} />
           <Route path="/mood-tracker" element={<MoodTracker />} />
           <Route path="/resource" element={<Resource />} />
           <Route path="/search-bar" element={<SearchBar />} />
           <Route path="/category-section" element={<CategorySection />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path='/*' element={<EmptyPage />}/>
         </Routes>
       </Router>
     </div>
