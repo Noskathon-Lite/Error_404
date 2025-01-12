@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
+
 import { Link } from 'react-router-dom';
 import {
   Heart,
@@ -12,7 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { format, isToday } from "date-fns";
-=======
+
 
 // Helper function to format dates
 const formatDate = (date) => {
@@ -24,7 +24,7 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', options);
 };
 
->>>>>>> 14eb9b2f30244f84a119d7b40c51a40251d6b6a5
+
 const moodOptions = [
   {
     emoji: "😊",
