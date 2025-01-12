@@ -10,6 +10,7 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', options);
 };
 
+
 const moodOptions = [
   {
     emoji: "😊",
@@ -144,9 +145,11 @@ export default function App() {
                 <span className="text-lg">➕</span>
                 Track Mood
               </button>
+              <Link to="/login">
               <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
                 Join Us
               </button>
+              </Link>
             </div>
           </div>
         </div>
