@@ -1,6 +1,7 @@
 import { Ghost, HomeIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-function EmptyPage() {
+function EmptyPage({setEmptyPage}) {
+    setEmptyPage(true);
   return (
     <main className="w-full min-h-screen bg-white flex flex-col items-center justify-center px-4">
       <div className="text-center space-y-6">

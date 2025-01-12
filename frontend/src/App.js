@@ -10,7 +10,7 @@ import Contact from './Contact';
 import EmptyPage from './EmptyPage';
 import { SearchBar } from './component/SearchBar';
 import { CategorySection } from './component/CategorySection';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { fetchResources } from './api/resources';
 import { 
   AlertCircle, 
@@ -25,18 +25,20 @@ import {
 } from 'lucide-react';
 
 
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link  } from 'react-router-dom';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [emptyPage, setEmptyPage] = useState(false);
 
   return (
     <div>
       
       <Router>
-      <Navbar 
-          setIsPopupOpen={setIsPopupOpen}
-      />
+      {!emptyPage && <Navbar 
+            setIsPopupOpen={setIsPopupOpen}
+        />
+  }
         <Routes>
           <Route path="/" element={<Home 
             isPopupOpen={isPopupOpen}
@@ -47,6 +49,9 @@ function App() {
           <Route path="/search-bar" element={<SearchBar />} />
           <Route path="/category-section" element={<CategorySection />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/*" element={<EmptyPage 
+            setEmptyPage={setEmptyPage}/>} 
+          />
         </Routes>
       </Router>
     </div>
