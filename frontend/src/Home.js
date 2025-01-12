@@ -1,6 +1,6 @@
 const Home = () => {
     return (
-        <h1>Community Driven Resource Library For mental health</h1>
+        <h1>Community Driven Resource Library For Mental Health</h1>
     )
 }
 
