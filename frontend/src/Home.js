@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import DisplayLink from "./DisplayLink";
 // Helper function to format dates
 const formatDate = (date) => {
   const options = { 
@@ -237,23 +237,18 @@ export default function App() {
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <span className="text-4xl text-purple-600 block mb-4">📚</span>
-              <h3 className="text-xl font-semibold mb-2">Curated Resources</h3>
-              <p className="text-gray-600">
-                Access quality mental health resources verified by our
-                community.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <span className="text-4xl text-purple-600 block mb-4">👥</span>
-              <h3 className="text-xl font-semibold mb-2">
-                Supportive Community
-              </h3>
-              <p className="text-gray-600">
-                Connect with others who understand and share your journey.
-              </p>
-            </div>
+            <DisplayLink 
+              img="📚" 
+              title="Curated Resources" 
+              url="/resources" 
+              text="Access quality mental health resources verified by our community." 
+            />
+            <DisplayLink 
+              img="👥" 
+              title=" Supportive Community" 
+              url="/community" 
+              text="Connect with others who understand and share your journey.." 
+            />
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
               <span className="text-4xl text-purple-600 block mb-4">🔄</span>
               <h3 className="text-xl font-semibold mb-2">Share Experiences</h3>
