@@ -1,19 +1,6 @@
 import React, { useEffect, useState } from "react";
-
-import { Link } from 'react-router-dom';
-import {
-  Heart,
-  Users,
-  BookOpen,
-  Share2,
-  ArrowRight,
-  Search,
-  Plus,
-  TrendingUp,
-} from "lucide-react";
-import { format, isToday } from "date-fns";
-
-
+import AllLink from "./AllLink";
+import { Link } from "react-router-dom";
 // Helper function to format dates
 const formatDate = (date) => {
   const options = { 
@@ -254,30 +241,7 @@ export default function App() {
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <span className="text-4xl text-purple-600 block mb-4">📚</span>
-              <h3 className="text-xl font-semibold mb-2">Curated Resources</h3>
-              <p className="text-gray-600">
-                Access quality mental health resources verified by our
-                community.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <span className="text-4xl text-purple-600 block mb-4">👥</span>
-              <h3 className="text-xl font-semibold mb-2">
-                Supportive Community
-              </h3>
-              <p className="text-gray-600">
-                Connect with others who understand and share your journey.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <span className="text-4xl text-purple-600 block mb-4">🔄</span>
-              <h3 className="text-xl font-semibold mb-2">Share Experiences</h3>
-              <p className="text-gray-600">
-                Contribute your knowledge and experiences to help others.
-              </p>
-            </div>
+              <AllLink />
           </div>
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8">
