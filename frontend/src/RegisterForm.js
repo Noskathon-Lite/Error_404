@@ -1,15 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    
     setShowForm(true);
   }, []);
 
@@ -21,6 +20,7 @@ const RegisterForm = () => {
       return;
     }
     console.log('Username:', username);
+    console.log('Email:', email);
     console.log('Password:', password);
   };
 
@@ -42,6 +42,20 @@ const RegisterForm = () => {
               required
               pattern="^[a-zA-Z0-9]{3,16}$"
               title="Username should be 3-16 characters and shouldn't include any special character!"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              title="Please enter a valid email address."
             />
           </div>
           <div className="mb-4">
