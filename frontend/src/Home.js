@@ -61,8 +61,7 @@ const moodOptions = [
   },
 ];
 
-export default function App() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+function Home({isPopupOpen,setIsPopupOpen}) {
   const [moodEntries, setMoodEntries] = useState(() => {
     const saved = localStorage.getItem("moodEntries");
     if (saved) {
@@ -115,46 +114,7 @@ export default function App() {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-purple-50 to-white">
-      <header className="w-full bg-white/90 backdrop-blur-sm border-b border-purple-100 fixed top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <span className="text-2xl">🧠</span>
-              <span className="ml-2 text-2xl font-bold text-gray-800">
-                MANASIK
-              </span>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Resources
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Community
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                About
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Contact
-              </a>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setIsPopupOpen(true)}
-                className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-50 transition-colors"
-              >
-                <span className="text-lg">➕</span>
-                Track Mood
-              </button>
-              <Link to="/login">
-              <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
-                Join Us
-              </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+     
       <main className="pt-24 relative">
         <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -341,3 +301,5 @@ export default function App() {
     </div>
   );
 }
+
+export default Home;
