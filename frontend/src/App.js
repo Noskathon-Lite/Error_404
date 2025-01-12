@@ -2,6 +2,7 @@ import Home from './Home';
 import Resource from './Resource';
 import MoodTracker from './MoodTracker';
 import LoginForm from './LoginForm';
+import EmptyPage from './EmptyPage';
 import { SearchBar } from './component/SearchBar';
 import { CategorySection } from './component/CategorySection';
 // import { fetchResources } from './api/resources';
@@ -44,6 +45,7 @@ function App() {
           <Route path="/search-bar" element={<SearchBar />} />
           <Route path="/category-section" element={<CategorySection />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path='/*' element={<EmptyPage />}/>
         </Routes>
       </Router>
     </div>
