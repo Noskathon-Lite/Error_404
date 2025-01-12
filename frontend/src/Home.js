@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import {
   Heart,
   Users,
@@ -140,9 +141,11 @@ const Home = () => {
                 <Plus size={20} />
                 Track Mood
               </button>
+              <Link to="/login">
               <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
                 Join Us
               </button>
+              </Link>
             </div>
           </div>
         </div>
