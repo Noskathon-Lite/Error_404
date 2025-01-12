@@ -1,7 +1,7 @@
 import Home from './Home';
 import Resource from './Resource';
 import MoodTracker from './MoodTracker';
-import { BrowserRouter as Router , Routes ,  Route , Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -9,8 +9,12 @@ function App() {
       <Router>
         <nav>
           <ul className='flex m-2'>
-            <li className='m-2'><Link to="/">Home</Link></li>
-            <li className='m-2'><Link to="/mood-tracker">Mood Tracker</Link></li>
+            <li className='m-2'>
+              <Link to="/">Home</Link>
+            </li>
+            <li className='m-2'>
+              <Link to="/mood-tracker">Mood Tracker</Link>
+            </li>
             <li className='m-2'><Link to="/resource">Resource</Link></li>
           </ul>
         </nav>
