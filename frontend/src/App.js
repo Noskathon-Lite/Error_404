@@ -20,6 +20,7 @@ import {
 
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AboutUs from './AboutUs';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/category-section" element={<CategorySection />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/about-us" element={<AboutUs />} />
           
         </Routes>
       </Router>
