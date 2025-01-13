@@ -13,13 +13,10 @@ const LoginForm = ({ setUserData ,setIsLoggedIn}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Example of user authentication (you may need to add your authentication logic here)
     if (username && password) {
-      // Store user data in state (you can store it in context or local storage as well)
       setUserData({ username, password });
       setIsLoggedIn(true);
-      // Redirect to profile page after successful login
+  
       navigate('/profile');
     } else {
       alert("Please fill in both username and password!");
