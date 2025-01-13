@@ -16,9 +16,6 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
             <Link to="/resource" className="text-gray-600 hover:text-purple-600">
               Resources
             </Link>
-            <Link to="/community" className="text-gray-600 hover:text-purple-600">
-              Community
-            </Link>
             <Link to="/about-us" className="text-gray-600 hover:text-purple-600">
               About
             </Link>

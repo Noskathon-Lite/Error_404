@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
-export function ResourceCard({ resource }) {
+function ResourceCard({ resource }) {
   return (
     <div className="group p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-100 transition-all duration-300 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50/0 to-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl" />
@@ -32,3 +32,5 @@ export function ResourceCard({ resource }) {
     </div>
   );
 }
+
+export default ResourceCard

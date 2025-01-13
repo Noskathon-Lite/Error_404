@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import AllLink from "./AllLink";
+import AllLink from "./component/AllLink";
 import { Link } from "react-router-dom";
+import Layout from './Layout'
+import Header, { MoodeEntriesHistoryContext } from "./component/Header";
+import MoodEntryHistory from "./component/MoodEntyHistory";
 // Helper function to format dates
-const formatDate = (date) => {
-  const options = { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric'
+export const formatDate = (date) => {
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
-  return new Date(date).toLocaleDateString('en-US', options);
+
+  console.log({ date });
+  return new Date(date).toLocaleDateString("en-US", options);
 };
 
-
-const moodOptions = [
+export const moodOptions = [
   {
     emoji: "😊",
     label: "Happy",
@@ -62,6 +66,10 @@ const moodOptions = [
 ];
 
 function Home({isPopupOpen,setIsPopupOpen}) {
+
+  const [note, setNote] = useState("");
+  const [averageMood, setAverageMood] = useState(0);
+  const [selectedMood, setSelectedMood] = useState(null);
   const [moodEntries, setMoodEntries] = useState(() => {
     const saved = localStorage.getItem("moodEntries");
     if (saved) {
@@ -73,9 +81,6 @@ function Home({isPopupOpen,setIsPopupOpen}) {
     }
     return [];
   });
-  const [selectedMood, setSelectedMood] = useState(null);
-  const [note, setNote] = useState("");
-  const [averageMood, setAverageMood] = useState(0);
 
   useEffect(() => {
     localStorage.setItem("moodEntries", JSON.stringify(moodEntries));
@@ -89,7 +94,7 @@ function Home({isPopupOpen,setIsPopupOpen}) {
     }
     const moodValues = moodEntries.map(
       (entry) =>
-        moodOptions.find((option) => option.emoji === entry.mood)?.value || 3,
+        moodOptions.find((option) => option.emoji === entry.mood)?.value || 3
     );
     const avg = moodValues.reduce((a, b) => a + b, 0) / moodValues.length;
     setAverageMood(avg);
@@ -116,10 +121,18 @@ function Home({isPopupOpen,setIsPopupOpen}) {
     <div className="w-full min-h-screen bg-gradient-to-b from-purple-50 to-white">
      
       <main className="pt-24 relative">
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
+        {/* <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16 md:py-24">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <MoodeEntriesHistoryContext.Provider
+              value={{ setMoodEntries, moodEntries, averageMood }}
+            > */}
+      {/* <Layout> */}
+      <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center py-16 md:py-24">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
             "Resources for Every Mood, Support for Every Mind."
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
