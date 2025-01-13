@@ -25,7 +25,7 @@ app.use('/api/user', userRouter);
 app.use('/api/moods', moodRouter);
 app.use('/api/resource', resourceRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
+import { register } from './api/login';
 
-const RegisterForm = ({ setUserData }) => {
+const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setShowForm(true);
@@ -21,19 +24,17 @@ const RegisterForm = ({ setUserData }) => {
       return;
     }
 
-    // Log user data (for now, this can be replaced with actual API calls or storage)
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    // Store user data (You can send this data to a backend here)
-    setUserData({ username, email });
-
-    // After successful registration, navigate or redirect user to login page or profile page
-    alert("Registration successful!");
-
-    // Optionally, navigate to login page
-    // navigate('/login');  // You can use react-router's navigate hook if needed
+    try {
+      // Call the register API
+      const response = register({username, email, password});
+      if(!response.ok) {
+        throw new Error (response.message || 'An error occurred during registration');
+      }
+      navigate('/login');
+    } catch (error) {
+      
+    }
+    
   };
 
   return (
@@ -75,7 +76,7 @@ const RegisterForm = ({ setUserData }) => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password}
@@ -90,7 +91,7 @@ const RegisterForm = ({ setUserData }) => {
               Confirm Password
             </label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="confirm-password"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={confirmPassword}
@@ -99,6 +100,16 @@ const RegisterForm = ({ setUserData }) => {
               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
               title="Password must be at least 8 characters long, and include at least one letter and one number!"
             />
+          </div>
+          <div className="flex items-center mb-4">
+            <input
+              type="checkbox"
+              id="show-password"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              className="mr-2"
+            />
+            <label htmlFor="show-password" className="text-sm text-blue-700">Show Password</label>
           </div>
           <div className="flex justify-center">
             <button
