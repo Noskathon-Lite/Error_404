@@ -20,12 +20,13 @@ import {
 
 
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AboutUs from './component/AboutUs';
 
 function App() {
   return (
     <div>
       <Router>
-        <nav>
+        {/* <nav>
           <ul className='flex m-2'>
             <li className='m-2'>
               <Link to="/">Home</Link>
@@ -37,7 +38,7 @@ function App() {
             <li className='m-2'><Link to="/search-bar">SearchBar</Link></li>
             <li className='m-2'><Link to="/category-section">CategorySection</Link></li>
           </ul>
-        </nav>
+        </nav> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mood-tracker" element={<MoodTracker />} />
@@ -46,6 +47,7 @@ function App() {
           <Route path="/category-section" element={<CategorySection />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/about" element={<AboutUs />} />
           
         </Routes>
       </Router>

@@ -1,6 +1,11 @@
 import DisplayLink from "./DisplayLink";
 
 function AllLink(){
+    // const navArray = [{
+    //     'icon':'📚',
+    //     'url':'/resource',
+    //     text: 
+    // }]
     return(
         <>
             <DisplayLink 
