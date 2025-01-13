@@ -1,56 +1,64 @@
-import Home from './Home';
-import Resource from './Resource';
-import MoodTracker from './MoodTracker';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
-import { SearchBar } from './component/SearchBar';
-import { CategorySection } from './component/CategorySection';
-// import { fetchResources } from './api/resources';
-import { 
-  AlertCircle, 
-  Loader, 
-  Heart,
-  Brain,
-  Cloud,
-  Frown,
-  Users,
-  Sparkles,
-  Menu
-} from 'lucide-react';
-
-
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useState } from "react";
+import { Router, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./Home";
+import Resource from "./Resource";
+import MoodTracker from "./MoodTracker";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import Navbar from "./Navbar";
+import EmptyPage from "./EmptyPage";
+import UserProfile from "./UserProfile";
+import AnonymousPost from "./AnonymousPost";
+import { SearchBar } from "./component/SearchBar";
+import { CategorySection } from "./component/CategorySection";
 import AboutUs from './component/AboutUs';
 
 function App() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Tracks login state
+  const [userData, setUserData] = useState({ username: "", email: "" });
+
   return (
     <div>
-      <Router>
-        {/* <nav>
-          <ul className='flex m-2'>
-            <li className='m-2'>
-              <Link to="/">Home</Link>
-            </li>
-            <li className='m-2'>
-              <Link to="/mood-tracker">Mood Tracker</Link>
-            </li>
-            <li className='m-2'><Link to="/resource">Resource</Link></li>
-            <li className='m-2'><Link to="/search-bar">SearchBar</Link></li>
-            <li className='m-2'><Link to="/category-section">CategorySection</Link></li>
-          </ul>
-        </nav> */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mood-tracker" element={<MoodTracker />} />
-          <Route path="/resource" element={<Resource />} />
-          <Route path="/search-bar" element={<SearchBar />} />
-          <Route path="/category-section" element={<CategorySection />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/about" element={<AboutUs />} />
-          
-        </Routes>
-      </Router>
+      {/* Render the Navbar and pass isLoggedIn to it */}
+      <Navbar isLoggedIn={isLoggedIn} setIsPopupOpen={setIsPopupOpen} />
+      <Routes>
+        {/* Home Route */}
+        <Route path="/" element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />} />
+        
+        {/* Other Routes */}
+        <Route path="/mood-tracker" element={<MoodTracker />} />
+        <Route path="/resource" element={<Resource />} />
+        <Route path="/search-bar" element={<SearchBar />} />
+        <Route path="/category-section" element={<CategorySection />} />
+        
+        {/* Login Route */}
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm setUserData={(data) => { setUserData(data); setIsLoggedIn(true); }} />}
+        />
+        
+        {/* Register Route */}
+        <Route
+          path="/register"
+          element={<RegisterForm setUserData={(data) => { setUserData(data); setIsLoggedIn(true); }} />}
+        />
+        
+        {/* Profile Route */}
+        <Route
+          path="/profile"
+          element={isLoggedIn ? <UserProfile userData={userData} setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/login" replace />}
+        />
+        
+        {/* Anonymous Post Route */}
+        <Route
+          path="/post"
+          element={isLoggedIn ? <AnonymousPost /> : <Navigate to="/login" replace />}
+        />
+        
+        {/* Empty Page for unmatched routes */}
+        <Route path="/*" element={<EmptyPage />} />
+      </Routes>
     </div>
   );
 }

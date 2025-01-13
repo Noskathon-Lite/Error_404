@@ -1,26 +1,33 @@
-
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ setUserData }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate(); // Use navigate to redirect to profile page after login
 
   useEffect(() => {
-   
     setShowForm(true);
   }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-   
-    console.log('Username:', username);
-    console.log('Password:', password);
+
+    // Example of user authentication (you may need to add your authentication logic here)
+    if (username && password) {
+      // Store user data in state (you can store it in context or local storage as well)
+      setUserData({ username, password });
+
+      // Redirect to profile page after successful login
+      navigate('/profile');
+    } else {
+      alert("Please fill in both username and password!");
+    }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-300">
       <div className={`bg-white p-8 rounded-lg shadow-lg w-80 transition-transform duration-700 ease-in-out transform ${showForm ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Login</h2>
         <form onSubmit={handleSubmit}>
