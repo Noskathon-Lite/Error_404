@@ -7,6 +7,7 @@ const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
@@ -75,7 +76,7 @@ const RegisterForm = () => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={password}
@@ -90,7 +91,7 @@ const RegisterForm = () => {
               Confirm Password
             </label>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="confirm-password"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={confirmPassword}
@@ -99,6 +100,16 @@ const RegisterForm = () => {
               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
               title="Password must be at least 8 characters long, and include at least one letter and one number!"
             />
+          </div>
+          <div className="flex items-center mb-4">
+            <input
+              type="checkbox"
+              id="show-password"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+              className="mr-2"
+            />
+            <label htmlFor="show-password" className="text-sm text-blue-700">Show Password</label>
           </div>
           <div className="flex justify-center">
             <button

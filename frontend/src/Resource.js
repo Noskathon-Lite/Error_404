@@ -38,6 +38,14 @@ const ResourcePage = () => {
     setSelectedCategory(category); // Update category for research-based data
   };
 
+  const handlePostSubmit = (post) => {
+    if (post.category === "research") {
+      setResearchData([post, ...researchData]); // Add to research-based data
+    } else {
+      setUserSuggestedData([post, ...userSuggestedData]); // Add to user-suggested data
+    }
+  };
+
   return (
     <div className="p-6 space-y-10">
       <h1 className="text-3xl text-center font-bold text-gray-800">Resource Library</h1>
