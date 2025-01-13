@@ -26,6 +26,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
         }
           localStorage.setItem('token', response.token);
           setIsLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify(response.user));
           navigate('/profile');
       
       } catch (err) {

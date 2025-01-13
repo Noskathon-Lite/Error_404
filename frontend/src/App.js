@@ -15,7 +15,7 @@ import AboutUs from './component/AboutUs';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Tracks login state
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user')? true : false); // Tracks login state
 
   return (
     <div>
