@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { MoodeEntriesHistoryContext } from './Header'
+import { MoodeEntriesHistoryContext } from '../MoodTracker'
 import { formatDate } from '../Home'
 
 

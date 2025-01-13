@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { fetchResources } from "./api/resources";
-import Layout from "./Layout";
 const Resource = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -11,7 +10,7 @@ const Resource = () => {
     // resource category openAPI
   };
   return (
-    <Layout>
+    <>
       <h1>this is resource page</h1>
       <div>
         {/* this side for searching categories like depress, disease */}
@@ -32,7 +31,7 @@ const Resource = () => {
         
         } */}
       </div>
-    </Layout>
+    </>
   );
 };
 

@@ -27,8 +27,11 @@ function App() {
         <Route path="/" element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />} />
         
         {/* Other Routes */}
+        {isLoggedIn && 
         <Route path="/mood-tracker" element={<MoodTracker />} />
+}
         <Route path="/resource" element={<Resource />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search-bar" element={<SearchBar />} />
         <Route path="/category-section" element={<CategorySection />} />
         <Route path="/about-us" element={<AboutUs/>} />
@@ -37,8 +40,13 @@ function App() {
         {/* Login Route */}
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate to="/profile" /> : <LoginForm setUserData={(data) => { setUserData(data); setIsLoggedIn(true); }} />}
+          element={isLoggedIn ? <Navigate to="/profile" /> : 
+          <LoginForm 
+            setUserData={(data) => { setUserData(data)}}
+            setIsLoggedIn={setIsLoggedIn } />
+          }
         />
+          
         
         {/* Register Route */}
         <Route

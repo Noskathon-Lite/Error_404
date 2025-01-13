@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
 import Layout from "../Layout";
 
 // import logo from '.src/Assets/background.jpg';
@@ -9,6 +8,8 @@ function AboutUs() {
   return (
     <Layout>
         <h2 className="text-3xl text-black strok-slate-50 font-extrabold text-center">
+    <>
+        <h2 className="text-3xl  text-black strok-slate-50 font-bold">
           Our Mission
         </h2>
         <p className="text-lg text-black mt-4 font-serif text-center">
@@ -98,7 +99,7 @@ function AboutUs() {
           </div>
           
       </section>
-    </Layout>
+    </>
   );
 }
 
