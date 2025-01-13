@@ -34,7 +34,9 @@ function App() {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search-bar" element={<SearchBar />} />
         <Route path="/category-section" element={<CategorySection />} />
-        
+        <Route path="/about-us" element={<AboutUs/>} />
+
+
         {/* Login Route */}
         <Route
           path="/login"

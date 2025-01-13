@@ -6,18 +6,21 @@ import Layout from "../Layout";
 
 function AboutUs() {
   return (
+    <Layout>
+        <h2 className="text-3xl text-black strok-slate-50 font-extrabold text-center">
     <>
         <h2 className="text-3xl  text-black strok-slate-50 font-bold">
           Our Mission
         </h2>
-        <p className="text-lg text-white mt-4 font-serif"></p>
-
+        <p className="text-lg text-black mt-4 font-serif text-center">
+        To empower individuals and communities by providing accessible, reliable, and collaborative mental health resources through an open-source platform that fosters understanding, support, and growth.
+      </p>
       <section className="max-w-6xl mx-auto px-4 ">
-        <h2 className="text-xl font-bold text-center text-gray-1000 mb-10">
+      <h1 className="text-xl font-bold text-center text-gray-800 mb-10">
           Meet Our Team
-        </h2>
+        </h1>
           <div className="grid grid-cols-2 gap-5">
-          <div className=" p-6 rounded-lg shadow-lg text-center transition duration-300 cursor-pointer hover:scale-105 hover: transition-0.7s">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105  hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100">
             <img
               className="w-24 h-24 mx-auto rounded-full mb-4"
               src="image/darshan.jpg "
@@ -32,14 +35,11 @@ function AboutUs() {
               </a>
             </h3>
             <p className="text-gray-500">Team Leader</p>
-            <p className="mt-2 text-gray-900 font-bold ">
-              A dedicated third-semester computer science student with a strong
-              passion for programming and technology. He is focused on
-              leveraging his skills to make a meaningful impact in healthcare
-              through innovative solutions
+            <p className="mt-2 text-gray-900 font-bold">
+              A visionary leader passionate about leveraging technology to create a positive impact on mental health. With his strong programming skills and commitment to innovation, Darshan spearheads the team’s mission to make mental health resources accessible to everyone.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-yellow-300 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100 ">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100 ">
             <img
               className="w-24 h-24 mx-auto rounded-full mb-4"
               src="image/Hari.jpg"
@@ -54,15 +54,11 @@ function AboutUs() {
               </a>
             </h3>
             <p className="text-gray-500">Team Member</p>
-            <p className="mt-2 text-gray-900 font-bold text-justify">
-              An enthusiastic programmer in his third semester, always eager to
-              learn and apply new technologies. His keen interest in healthcare
-              innovations is matched by his commitment to developing intuitive
-              and accessible applications that make healthcare services more
-              efficient for everyone.
+            <p className="mt-2 text-gray-900 font-bold">
+              Hari is a dedicated programmer with a deep interest in addressing mental health challenges through technology. His goal is to design intuitive and user-friendly interfaces that foster a supportive and engaging environment for users.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-yellow-300 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100">
             <img
               className="w-24 h-24 mx-auto rounded-full mb-4"
               src="image/binod.jpg"
@@ -77,15 +73,11 @@ function AboutUs() {
               </a>
             </h3>
             <p className="text-gray-500">Team Member</p>
-            <p className="mt-2 text-gray-900 font-bold text-justify">
-              A motivated student with a knack for problem-solving and a deep
-              passion for programming. His dedication to improving healthcare
-              accessibility through technology makes him a crucial part of the
-              team, always ready to tackle new challenges with creative
-              solutions.
+            <p className="mt-2 text-gray-900 font-bold">
+              Binod brings a strong analytical mindset and a passion for problem-solving to the team. He is dedicated to creating data-driven solutions that enhance the accessibility and impact of mental health resources for diverse communities.
             </p>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-yellow-300 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center transition duration-300 transform hover:scale-105 hover:shadow-md bg-gradient-to-r from-sky-200 to-indigo-100">
             <img
               className="w-24 h-24 mx-auto rounded-full mb-4"
               src="image/nishan.jpg"
@@ -100,11 +92,8 @@ function AboutUs() {
               </a>
             </h3>
             <p className="text-gray-500">Team Member</p>
-            <p className="mt-2 text-gray-900 font-bold text-justify">
-              An aspiring software developer, fascinated by the intersection of
-              technology and healthcare. His goal is to harness his programming
-              skills to build platforms that enhance patient care and streamline
-              medical processes, ensuring a better future for all.
+            <p className="mt-2 text-gray-900 font-bold">
+              Nishan is a tech enthusiast driven by a desire to improve mental health care through innovative technology. His work focuses on developing scalable and inclusive features that support mental well-being for all users.
             </p>
           </div>
           </div>
