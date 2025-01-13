@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 const AnonymousPost = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
+  const [title, setTitle] = useState('');
+  const [file, setFile] = useState(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
 
   // Fetch posts from the backend
@@ -21,8 +23,10 @@ const AnonymousPost = () => {
     e.preventDefault();
 
     const post = {
+      title,
       content: newPost,
       isAnonymous,
+      file: file ? URL.createObjectURL(file) : null,
       timestamp: new Date(),
     };
 
@@ -36,14 +40,26 @@ const AnonymousPost = () => {
     // Update the local state to show the new post
     setPosts([post, ...posts]);
     setNewPost('');
+    setTitle('');
+    setFile(null);
     setIsAnonymous(false);
   };
 
   return (
     <div className="max-w-3xl mx-auto mt-20 p-6 bg-gray-200 rounded-md shadow-lg">
-      
       {/* Post Submission Form */}
-      <form onSubmit={handlePostSubmit} className="mb-8">
+      <form onSubmit={handlePostSubmit} className="mb-8 space-y-4">
+        {/* Title Input */}
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter a title..."
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
+
+        {/* Content Input */}
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
@@ -52,6 +68,16 @@ const AnonymousPost = () => {
           rows="4"
           required
         ></textarea>
+
+        {/* File Input */}
+        <input
+          type="file"
+          accept="image/*,video/*"
+          onChange={(e) => setFile(e.target.files[0])}
+          className="block w-full text-gray-500"
+        />
+
+        {/* Anonymous Toggle */}
         <div className="flex items-center mt-3 mb-4">
           <input
             type="checkbox"
@@ -60,8 +86,12 @@ const AnonymousPost = () => {
             id="anonymous"
             className="mr-2 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="anonymous" className="text-gray-700">Post as Anonymous</label>
+          <label htmlFor="anonymous" className="text-gray-700">
+            Post as Anonymous
+          </label>
         </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
@@ -80,13 +110,36 @@ const AnonymousPost = () => {
               key={index}
               className="border p-5 rounded-lg bg-white shadow-sm hover:shadow-md transition duration-200"
             >
-              <div className="text-sm text-gray-500 flex justify-between items-center">
+              {/* Title */}
+              {post.title && <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>}
+
+           
+              <div className="text-sm text-gray-500 flex justify-between items-center mt-1">
                 <span className="font-semibold">
                   {post.isAnonymous ? 'Anonymous' : 'User'}
                 </span>
                 <span>{new Date(post.timestamp).toLocaleString()}</span>
               </div>
+
               <p className="mt-3 text-gray-800">{post.content}</p>
+
+              {post.file && (
+                <div className="mt-4">
+                  {post.file.endsWith('.mp4') || post.file.endsWith('.webm') ? (
+                    <video
+                      src={post.file}
+                      controls
+                      className="w-full rounded-md shadow-md"
+                    ></video>
+                  ) : (
+                    <img
+                      src={post.file}
+                      alt="Uploaded content"
+                      className="w-full rounded-md shadow-md"
+                    />
+                  )}
+                </div>
+              )}
             </div>
           ))
         )}
