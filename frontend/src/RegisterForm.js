@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const RegisterForm = () => {
+const RegisterForm = ({ setUserData }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,21 +15,33 @@ const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     
+    // Check if passwords match
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
+
+    // Log user data (for now, this can be replaced with actual API calls or storage)
     console.log('Username:', username);
     console.log('Email:', email);
     console.log('Password:', password);
+
+    // Store user data (You can send this data to a backend here)
+    setUserData({ username, email });
+
+    // After successful registration, navigate or redirect user to login page or profile page
+    alert("Registration successful!");
+
+    // Optionally, navigate to login page
+    // navigate('/login');  // You can use react-router's navigate hook if needed
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-100 pt-5 mt-10">
       <div className={`bg-white p-8 rounded-lg shadow-lg w-80 transition-transform duration-700 ease-in-out transform ${showForm ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Register</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center text-blue-700">Register</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="username">
               Username
             </label>
@@ -44,7 +56,7 @@ const RegisterForm = () => {
               title="Username should be 3-16 characters and shouldn't include any special character!"
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="email">
               Email
             </label>
@@ -58,7 +70,7 @@ const RegisterForm = () => {
               title="Please enter a valid email address."
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="password">
               Password
             </label>
@@ -73,7 +85,7 @@ const RegisterForm = () => {
               title="Password must be at least 8 characters long, and include at least one letter and one number!"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="confirm-password">
               Confirm Password
             </label>
