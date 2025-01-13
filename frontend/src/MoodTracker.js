@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {createContext , useContext , useEffect, useState } from "react";
 import { Plus, TrendingUp } from "lucide-react";
 import { format, isToday } from "date-fns";
 
@@ -51,12 +51,14 @@ const moodOptions = [
   },
 ];
 
+export const MoodeEntriesHistoryContext = createContext({
+  moodEntries:[],
+  setMoodEntries:()=>{}
+})
+
 export default function MoodTracker({selectedMood , setSelectedMood}) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [moodEntries, setMoodEntries] = useState(() => {
-    const saved = localStorage.getItem("moodEntries");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const {moodEntries, setMoodEntries} = useContext(MoodeEntriesHistoryContext);
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
 
