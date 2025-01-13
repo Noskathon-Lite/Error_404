@@ -21,19 +21,8 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
             >
               Resources
             </Link>
-<<<<<<< HEAD
-            <Link
-              to="/about-us"
-              className="text-gray-600 hover:text-purple-600"
-            >
-              About
-            </Link>
-            <Link to="/contact" className="text-gray-600 hover:text-purple-600">
-              Contact
-=======
             <Link to="/about-us" className="text-gray-600 hover:text-purple-600">
               About Us
->>>>>>> a1adc0f4104360a49338e94de746de268194bd93
             </Link>
 
             {/* Conditionally Render Post Button */}
