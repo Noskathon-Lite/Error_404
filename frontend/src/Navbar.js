@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
   return (
@@ -8,15 +8,23 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <span className="text-2xl">🧠</span>
-            <span className="ml-2 text-2xl font-bold text-gray-800">MANASIK</span>
+            <span className="ml-2 text-2xl font-bold text-gray-800">
+              MANASIK
+            </span>
           </Link>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/resource" className="text-gray-600 hover:text-purple-600">
+            <Link
+              to="/resource"
+              className="text-gray-600 hover:text-purple-600"
+            >
               Resources
             </Link>
-            <Link to="/about-us" className="text-gray-600 hover:text-purple-600">
+            <Link
+              to="/about-us"
+              className="text-gray-600 hover:text-purple-600"
+            >
               About
             </Link>
             <Link to="/contact" className="text-gray-600 hover:text-purple-600">
@@ -37,22 +45,25 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
           <div className="flex items-center space-x-4">
             {/* Mood Tracker Button */}
             {isLoggedIn && (
-              <Link to="/mood-tracker" >
-            <button
-              onClick={() => setIsPopupOpen(true)}
-              className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-50 transition-colors"
-            >
-              <span className="text-lg">➕</span>
-              Track Mood
-            </button>
-            </Link>)}
+              <Link to="/mood-tracker">
+                <button
+                  onClick={() => setIsPopupOpen(true)}
+                  className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-50 transition-colors"
+                >
+                  <span className="text-lg">➕</span>
+                  Track Mood
+                </button>
+              </Link>
+            )}
 
             {/* Join Us Button */}
-            <Link to="/login">
-              <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
-                Join Us
-              </button>
-            </Link>
+            {!isLoggedIn && (
+              <Link to="/login">
+                <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
+                  Join Us
+                </button>
+              </Link>
+            )}
 
             {/* Profile Logo */}
             <Link to="/profile">
