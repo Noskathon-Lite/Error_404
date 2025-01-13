@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AllLink from "./component/AllLink";
 import { Link } from "react-router-dom";
 import Layout from './Layout'
-import Header, { MoodeEntriesHistoryContext } from "./component/Header";
+import { MoodeEntriesHistoryContext } from "./MoodTracker";
 import MoodEntryHistory from "./component/MoodEntyHistory";
 // Helper function to format dates
 export const formatDate = (date) => {

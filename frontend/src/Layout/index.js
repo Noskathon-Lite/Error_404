@@ -1,10 +1,8 @@
 import React from "react";
-import Header from "../component/Header";
 
 export default function index({children}) {
   return (
     <div className="w-full flex flex-col min-h-screen h-full bg-gradient-to-b from-purple-50 to-white">
-      <Header />
       <main className="pt-24 px-[40px] relative flex-1">
         {children}
       </main>

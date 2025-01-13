@@ -19,9 +19,6 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
             <Link to="/about-us" className="text-gray-600 hover:text-purple-600">
               About
             </Link>
-            <Link to="/contact" className="text-gray-600 hover:text-purple-600">
-              Contact
-            </Link>
 
             {/* Conditionally Render Post Button */}
             {isLoggedIn && (

@@ -31,6 +31,7 @@ function App() {
         <Route path="/mood-tracker" element={<MoodTracker />} />
 }
         <Route path="/resource" element={<Resource />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/search-bar" element={<SearchBar />} />
         <Route path="/category-section" element={<CategorySection />} />
         
