@@ -85,9 +85,9 @@ const ResourcePage = () => {
                 <h3 className="text-xl text-gray-800 font-semibold">{resource.title}</h3>
               </div>
               <p className="text-sm text-gray-600 mt-2">{resource.description}</p>
-              {resource.link && (
+              {resource.mediaURL && (
                 <a
-                  href={resource.link}
+                  href={resource.mediaURL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-600 hover:underline mt-4 inline-block"
@@ -110,7 +110,7 @@ const ResourcePage = () => {
                 <h3 className="text-xl text-gray-800 font-semibold">{resource.title}</h3>
               </div>
               <p className="text-sm text-gray-600 mt-2">{resource.description}</p>
-              {resource.fileUrl && (
+              {resource.mediaURL && (
                 <div className="mt-4">
                   <img
                     src={resource.mediaURL}
