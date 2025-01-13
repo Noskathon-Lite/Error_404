@@ -12,6 +12,8 @@ import AnonymousPost from "./AnonymousPost";
 import { SearchBar } from "./component/SearchBar";
 import { CategorySection } from "./component/CategorySection";
 import AboutUs from './component/AboutUs';
+import AnxietyPage from "./AnxietyPage";
+
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -31,6 +33,8 @@ function App() {
 }
         <Route path="/resource" element={<Resource />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/anxiety" element={<AnxietyPage />} />
+
         <Route path="/search-bar" element={<SearchBar />} />
         <Route path="/category-section" element={<CategorySection />} />
         
