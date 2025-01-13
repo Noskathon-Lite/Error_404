@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
+import { register } from './api/login';
 
-const RegisterForm = ({ setUserData }) => {
+const RegisterForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setShowForm(true);
@@ -21,19 +23,17 @@ const RegisterForm = ({ setUserData }) => {
       return;
     }
 
-    // Log user data (for now, this can be replaced with actual API calls or storage)
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-    // Store user data (You can send this data to a backend here)
-    setUserData({ username, email });
-
-    // After successful registration, navigate or redirect user to login page or profile page
-    alert("Registration successful!");
-
-    // Optionally, navigate to login page
-    // navigate('/login');  // You can use react-router's navigate hook if needed
+    try {
+      // Call the register API
+      const response = register({username, email, password});
+      if(!response.ok) {
+        throw new Error (response.message || 'An error occurred during registration');
+      }
+      navigate('/login');
+    } catch (error) {
+      
+    }
+    
   };
 
   return (
