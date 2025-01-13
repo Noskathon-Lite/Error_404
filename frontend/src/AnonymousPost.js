@@ -88,23 +88,23 @@ const AnonymousPost = () => {
   return (
     <div className="max-w-3xl mx-auto mt-20 p-6 bg-gray-200 rounded-md shadow-lg">
       {/* Post Submission Form */}
-      <form onSubmit={handlePostSubmit} className="mb-8 space-y-4">
+      <form onSubmit={handlePostSubmit} className="mb-8">
         {/* Title Input */}
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter a title..."
-          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Enter the title of your post"
+          className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           required
         />
 
-        {/* Content Input */}
+        {/* Post Content Input */}
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Share your feelings or ask a question..."
-          className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           rows="4"
           required
         ></textarea>
@@ -140,9 +140,7 @@ const AnonymousPost = () => {
             id="anonymous"
             className="mr-2 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="anonymous" className="text-gray-700">
-            Post as Anonymous
-          </label>
+          <label htmlFor="anonymous" className="text-gray-700">Post as Anonymous</label>
         </div>
 
         {/* Submit Button */}

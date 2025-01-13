@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Layout from './Layout'
 import { MoodeEntriesHistoryContext } from "./MoodTracker";
 import MoodEntryHistory from "./component/MoodEntryHistory";
+
 // Helper function to format dates
 export const formatDate = (date) => {
   const options = {
@@ -66,7 +67,6 @@ export const moodOptions = [
 ];
 
 function Home({isPopupOpen,setIsPopupOpen}) {
-
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
   const [selectedMood, setSelectedMood] = useState(null);
@@ -119,33 +119,28 @@ function Home({isPopupOpen,setIsPopupOpen}) {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-purple-50 to-white">
-     
       <main className="pt-24 relative">
-        {/* <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16 md:py-24">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            <MoodeEntriesHistoryContext.Provider
-              value={{ setMoodEntries, moodEntries, averageMood }}
-            > */}
-      {/* <Layout> */}
-      <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center py-16 md:py-24">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            "Resources for Every Mood, Support for Every Mind."
+              "Resources for Every Mood, Support for Every Mind."
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Join our supportive community in sharing and accessing valuable
               mental health resources, experiences, and knowledge.
             </p>
             <div className="flex justify-center space-x-4">
+            <Link to="/resource">
               <button className="bg-purple-600 text-white px-8 py-3 rounded-full hover:bg-purple-700 transition-colors flex items-center">
                 Browse Resources <span className="ml-2">→</span>
               </button>
+              </Link>
+              <Link to="/login">
               <button className="border-2 border-purple-600 text-purple-600 px-8 py-3 rounded-full hover:bg-purple-50 transition-colors">
                 Contribute
               </button>
+              </Link>
             </div>
           </div>
           <div className="max-w-3xl mx-auto mb-16">
@@ -221,7 +216,7 @@ function Home({isPopupOpen,setIsPopupOpen}) {
               Popular Topics
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
+              {[ 
                 "Anxiety",
                 "Depression",
                 "Self-Care",
@@ -243,6 +238,8 @@ function Home({isPopupOpen,setIsPopupOpen}) {
           </div>
         </div>
       </main>
+      
+      {/* Popup to track mood */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full">
@@ -297,6 +294,7 @@ function Home({isPopupOpen,setIsPopupOpen}) {
           </div>
         </div>
       )}
+
       <footer className="bg-gray-50 border-t border-purple-100 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center mb-4">
