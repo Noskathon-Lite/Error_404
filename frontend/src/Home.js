@@ -3,7 +3,7 @@ import AllLink from "./component/AllLink";
 import { Link } from "react-router-dom";
 import Layout from './Layout'
 import { MoodeEntriesHistoryContext } from "./MoodTracker";
-import MoodEntryHistory from "./component/MoodEntyHistory";
+import MoodEntryHistory from "./component/MoodEntryHistory";
 // Helper function to format dates
 export const formatDate = (date) => {
   const options = {
