@@ -39,6 +39,8 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
           {/* Buttons and Profile */}
           <div className="flex items-center space-x-4">
             {/* Mood Tracker Button */}
+            {isLoggedIn && (
+              <Link to="/mood-tracker" >
             <button
               onClick={() => setIsPopupOpen(true)}
               className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-50 transition-colors"
@@ -46,6 +48,7 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
               <span className="text-lg">➕</span>
               Track Mood
             </button>
+            </Link>)}
 
             {/* Join Us Button */}
             <Link to="/login">

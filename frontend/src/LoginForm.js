@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LoginForm = ({ setUserData }) => {
+const LoginForm = ({ setUserData ,setIsLoggedIn}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +18,7 @@ const LoginForm = ({ setUserData }) => {
     if (username && password) {
       // Store user data in state (you can store it in context or local storage as well)
       setUserData({ username, password });
-
+      setIsLoggedIn(true);
       // Redirect to profile page after successful login
       navigate('/profile');
     } else {
