@@ -2,55 +2,6 @@ import React, {createContext , useContext , useEffect, useState } from "react";
 import { Plus, TrendingUp } from "lucide-react";
 import { format, isToday } from "date-fns";
 
-const moodOptions = [
-  {
-    emoji: "😊",
-    label: "Happy",
-    value: 1,
-    suggestions: [
-      "Go for a walk",
-      "Share your joy with friends",
-      "Try something new",
-    ],
-  },
-  {
-    emoji: "😐",
-    label: "Neutral",
-    value: 2,
-    suggestions: [
-      "Take a short break",
-      "Do some light exercise",
-      "Listen to music",
-    ],
-  },
-  {
-    emoji: "😢",
-    label: "Sad",
-    value: 3,
-    suggestions: [
-      "Talk to someone you trust",
-      "Practice self-care",
-      "Try deep breathing",
-    ],
-  },
-  {
-    emoji: "😡",
-    label: "Angry",
-    value: 4,
-    suggestions: ["Take deep breaths", "Exercise", "Write your feelings down"],
-  },
-  {
-    emoji: "😴",
-    label: "Tired",
-    value: 5,
-    suggestions: [
-      "Take a power nap",
-      "Have a healthy snack",
-      "Get some fresh air",
-    ],
-  },
-];
-
 export const MoodeEntriesHistoryContext = createContext({
   moodEntries:[],
   setMoodEntries:()=>{}
@@ -61,9 +12,22 @@ export default function MoodTracker({selectedMood , setSelectedMood}) {
   const {moodEntries, setMoodEntries} = useContext(MoodeEntriesHistoryContext);
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
+  const [moodOptions, setMoodOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem("moodEntries", JSON.stringify(moodEntries));
+      const fetchMoodOptions = async () => {
+        try {
+          const response = await fetch('https://manasikbackend-production.up.railway.app/api/moods/defaultmood');
+          const data = await response.json();
+          setMoodOptions(data); // Set the fetched mood options
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching mood options:", error);
+          setLoading(false);
+        }
+      };
+      fetchMoodOptions();
     calculateAverageMood();
   }, [moodEntries]);
 

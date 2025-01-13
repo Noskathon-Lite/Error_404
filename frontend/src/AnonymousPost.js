@@ -1,34 +1,88 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
-const AnonymousPost = ({ onPostSubmit }) => {
+const AnonymousPost = () => {
+  const [posts, setPosts] = useState([]);
+  const [description , setDescription] = useState('');
   const [title, setTitle] = useState('');
-  const [newPost, setNewPost] = useState('');
+  const [file, setFile] = useState(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [username, setUsername] = useState('');
-  const [category, setCategory] = useState('research'); // Track the category for research or user-suggested
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+
+  // Replace with your ImgBB API key
+  const IMGBB_API_KEY = '6296588d84919126fce7c294356f4bf2';
+
+  const uploadToImgBB = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('key', IMGBB_API_KEY);
+
+    const response = await fetch('https://api.imgbb.com/1/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!data.success) throw new Error('Failed to upload image');
+    return data.data.url;
+  };
 
   // Handle new post submission
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+    setUploadError('');
 
-    const post = {
-      username: isAnonymous ? 'Anonymous' : username,
-      title,
-      content: newPost,
-      isAnonymous,
-      category, // research or user-suggested
-      timestamp: new Date(),
-    };
+    try {
+      let fileUrl = null;
+      if (file) {
+        fileUrl = await uploadToImgBB(file);
+      }
+      const basedContent = isAnonymous ? 'user' : 'research';
 
-    // Send the post to the parent (ResourcePage)
-    onPostSubmit(post);
+      const post = {
+        title,
+        description: description,
+        basedContent:basedContent,
+        mediaURL: fileUrl,
+        timestamp: new Date(),
+      };
 
-    // Reset form
-    setTitle('');
-    setNewPost('');
-    setUsername('');
-    setIsAnonymous(false);
-    setCategory('research');
+      // Send post to the backend
+      const response = await fetch('https://manasikbackend-production.up.railway.app/api/resource', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(post),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+
+      // Update the local state to show the new post
+      setPosts([post, ...posts]);
+      setDescription('');
+      setTitle('');
+      setFile(null);
+      setIsAnonymous(false);
+    } catch (error) {
+      setUploadError(error.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFileSelect = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.size > 10 * 1024 * 1024) { // 10MB limit
+      setUploadError('File size must be less than 10MB');
+      return;
+    }
+    setFile(selectedFile);
+    setUploadError('');
   };
 
   return (
@@ -45,39 +99,36 @@ const AnonymousPost = ({ onPostSubmit }) => {
           required
         />
 
-        {/* Username Input (only if not anonymous) */}
-        {!isAnonymous && (
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        )}
-
         {/* Post Content Input */}
         <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder="Share your feelings or ask a question..."
           className="w-full p-4 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           rows="4"
           required
         ></textarea>
 
-        {/* Category Selection */}
-        <div className="mb-4">
-          <label className="block text-gray-700">Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="research">Research-Based</option>
-            <option value="user">User-Suggested</option>
-          </select>
+        {/* File Input */}
+        <div className="space-y-2">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileSelect}
+            className="block w-full text-gray-500"
+          />
+          {file && (
+            <div className="mt-2">
+              <img
+                src={URL.createObjectURL(file)}
+                alt="Preview"
+                className="max-h-48 rounded-lg"
+              />
+            </div>
+          )}
+          {uploadError && (
+            <p className="text-red-500 text-sm">{uploadError}</p>
+          )}
         </div>
 
         {/* Anonymous Toggle */}
@@ -95,9 +146,14 @@ const AnonymousPost = ({ onPostSubmit }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
+          disabled={isUploading}
+          className={`w-full ${
+            isUploading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          } text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200`}
         >
-          Submit
+          {isUploading ? 'Uploading...' : 'Submit'}
         </button>
       </form>
     </div>

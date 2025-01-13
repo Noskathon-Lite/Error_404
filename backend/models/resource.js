@@ -10,6 +10,11 @@ const resourceSchema = new mongoose.Schema({
       required: true,
       enum: ['blog', 'video', 'image']
     },
+    basedContent: { 
+      type: String, 
+      required: true,
+      enum: ['research', 'user']
+    },
     mediaUrl: { type: String, required: true },
     tags: [String],
     createdAt: { type: Date, default: Date.now },
