@@ -97,8 +97,8 @@ function AboutUs() {
           </div>
           
       </section>
-    </Layout>
+      </Layout>
+    
   );
 }
-
 export default AboutUs;
