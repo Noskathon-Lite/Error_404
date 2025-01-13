@@ -99,6 +99,15 @@ const ResourcePage = () => {
                 </div>
                 <p className="text-sm text-gray-600 mt-2">{resource.description}</p>
                 {resource.mediaURL && (
+                  <div className="mt-4">
+                    <img
+                      src={resource.mediaURL}
+                      alt={resource.title}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+                {resource.mediaURL && (
                   <a
                     href={resource.mediaURL}
                     target="_blank"
