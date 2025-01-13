@@ -66,10 +66,9 @@ export const moodOptions = [
   },
 ];
 
-function Home({isPopupOpen,setIsPopupOpen}) {
+function Home({isPopupOpen , setIsPopupOpen , selectedMood,setSelectedMood}) {
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
-  const [selectedMood, setSelectedMood] = useState(null);
   const [moodEntries, setMoodEntries] = useState(() => {
     const saved = localStorage.getItem("moodEntries");
     if (saved) {

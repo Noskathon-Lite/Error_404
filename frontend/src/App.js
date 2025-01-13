@@ -18,6 +18,7 @@ import AnxietyPage from "./AnxietyPage";
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user')? true : false); // Tracks login state
+  const [selectedMood, setSelectedMood] = useState(null);
 
   return (
     <div>
@@ -25,11 +26,21 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} setIsPopupOpen={setIsPopupOpen} />
       <Routes>
         {/* Home Route */}
-        <Route path="/" element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />} />
+        <Route path="/" element={
+          <Home 
+            isPopupOpen={isPopupOpen} 
+            setIsPopupOpen={setIsPopupOpen} 
+            selectedMood={selectedMood}/>} 
+            setSelectedMood={setSelectedMood}
+        />
         
         {/* Other Routes */}
         {isLoggedIn && 
-        <Route path="/mood-tracker" element={<MoodTracker />} />
+        <Route path="/mood-tracker" element={
+        <MoodTracker 
+          selectedMood={selectedMood} 
+          setSelectedMood={setSelectedMood}
+        />} />
 }
         <Route path="/resource" element={<Resource />} />
         <Route path="/about-us" element={<AboutUs />} />
