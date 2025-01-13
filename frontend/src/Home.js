@@ -210,31 +210,6 @@ function Home({isPopupOpen , setIsPopupOpen , selectedMood,setSelectedMood}) {
           <div className="grid md:grid-cols-3 gap-8 mb-16">
               <AllLink />
           </div>
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">
-              Popular Topics
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[ 
-                "Anxiety",
-                "Depression",
-                "Self-Care",
-                "Mindfulness",
-                "Stress Management",
-                "Relationships",
-                "Work-Life Balance",
-                "Personal Growth",
-              ].map((topic) => (
-                <a
-                  key={topic}
-                  href="#"
-                  className="bg-white px-6 py-4 rounded-xl text-center border border-purple-100 hover:border-purple-300 hover:shadow-sm transition-all"
-                >
-                  {topic}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </main>
       
