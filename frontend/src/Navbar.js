@@ -20,7 +20,7 @@ const Navbar = ({ setIsPopupOpen, isLoggedIn }) => {
               Community
             </Link>
             <Link to="/about-us" className="text-gray-600 hover:text-purple-600">
-              About
+              About Us
             </Link>
             <Link to="/contact" className="text-gray-600 hover:text-purple-600">
               Contact

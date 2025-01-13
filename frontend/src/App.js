@@ -31,7 +31,9 @@ function App() {
         <Route path="/resource" element={<Resource />} />
         <Route path="/search-bar" element={<SearchBar />} />
         <Route path="/category-section" element={<CategorySection />} />
-        
+        <Route path="/about-us" element={<AboutUs/>} />
+
+
         {/* Login Route */}
         <Route
           path="/login"
