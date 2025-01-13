@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const AnonymousPost = () => {
+const AnonymousPost = ({ onPostSubmit }) => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
-  const [title, setTitle] = useState('');
-  const [file, setFile] = useState(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [username, setUsername] = useState('');
+  const [category, setCategory] = useState('research'); // To track research-based or user-suggested
 
   // Fetch posts from the backend
   useEffect(() => {
@@ -23,59 +23,61 @@ const AnonymousPost = () => {
     e.preventDefault();
 
     const post = {
-      title,
+      username: isAnonymous ? 'Anonymous' : username,
       content: newPost,
       isAnonymous,
-      file: file ? URL.createObjectURL(file) : null,
+      category, // research or user-suggested
       timestamp: new Date(),
     };
 
-    // Send post to the backend
-    await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post),
-    });
+    // Call parent function to send the post to the resource section
+    onPostSubmit(post);
 
-    // Update the local state to show the new post
-    setPosts([post, ...posts]);
+    // Reset form
     setNewPost('');
-    setTitle('');
-    setFile(null);
+    setUsername('');
     setIsAnonymous(false);
+    setCategory('research');
   };
 
   return (
     <div className="max-w-3xl mx-auto mt-20 p-6 bg-gray-200 rounded-md shadow-lg">
       {/* Post Submission Form */}
-      <form onSubmit={handlePostSubmit} className="mb-8 space-y-4">
-        {/* Title Input */}
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter a title..."
-          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          required
-        />
+      <form onSubmit={handlePostSubmit} className="mb-8">
+        {/* Username Input (only if not anonymous) */}
+        {!isAnonymous && (
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your username"
+            className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        )}
 
-        {/* Content Input */}
+        {/* Post Content Input */}
         <textarea
           value={newPost}
           onChange={(e) => setNewPost(e.target.value)}
           placeholder="Share your feelings or ask a question..."
-          className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full p-4 mb-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           rows="4"
           required
         ></textarea>
 
-        {/* File Input */}
-        <input
-          type="file"
-          accept="image/*,video/*"
-          onChange={(e) => setFile(e.target.files[0])}
-          className="block w-full text-gray-500"
-        />
+        {/* Category Selection */}
+        <div className="mb-4">
+          <label className="block text-gray-700">Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="research">Research-Based</option>
+            <option value="user">User-Suggested</option>
+          </select>
+        </div>
 
         {/* Anonymous Toggle */}
         <div className="flex items-center mt-3 mb-4">
@@ -86,9 +88,7 @@ const AnonymousPost = () => {
             id="anonymous"
             className="mr-2 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="anonymous" className="text-gray-700">
-            Post as Anonymous
-          </label>
+          <label htmlFor="anonymous" className="text-gray-700">Post as Anonymous</label>
         </div>
 
         {/* Submit Button */}
@@ -110,36 +110,11 @@ const AnonymousPost = () => {
               key={index}
               className="border p-5 rounded-lg bg-white shadow-sm hover:shadow-md transition duration-200"
             >
-              {/* Title */}
-              {post.title && <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>}
-
-           
-              <div className="text-sm text-gray-500 flex justify-between items-center mt-1">
-                <span className="font-semibold">
-                  {post.isAnonymous ? 'Anonymous' : 'User'}
-                </span>
+              <div className="text-sm text-gray-500 flex justify-between items-center">
+                <span className="font-semibold">{post.isAnonymous ? 'Anonymous' : post.username}</span>
                 <span>{new Date(post.timestamp).toLocaleString()}</span>
               </div>
-
               <p className="mt-3 text-gray-800">{post.content}</p>
-
-              {post.file && (
-                <div className="mt-4">
-                  {post.file.endsWith('.mp4') || post.file.endsWith('.webm') ? (
-                    <video
-                      src={post.file}
-                      controls
-                      className="w-full rounded-md shadow-md"
-                    ></video>
-                  ) : (
-                    <img
-                      src={post.file}
-                      alt="Uploaded content"
-                      className="w-full rounded-md shadow-md"
-                    />
-                  )}
-                </div>
-              )}
             </div>
           ))
         )}
