@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import Resource from "./Resource";
 import MoodTracker from "./MoodTracker";
@@ -11,6 +11,7 @@ import UserProfile from "./UserProfile";
 import AnonymousPost from "./AnonymousPost";
 import { SearchBar } from "./component/SearchBar";
 import { CategorySection } from "./component/CategorySection";
+import AboutUs from './component/AboutUs';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -21,7 +22,6 @@ function App() {
     <div>
       {/* Render the Navbar and pass isLoggedIn to it */}
       <Navbar isLoggedIn={isLoggedIn} setIsPopupOpen={setIsPopupOpen} />
-      
       <Routes>
         {/* Home Route */}
         <Route path="/" element={<Home isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />} />

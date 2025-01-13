@@ -51,13 +51,12 @@ const moodOptions = [
   },
 ];
 
-export default function MoodTracker() {
+export default function MoodTracker({selectedMood , setSelectedMood}) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [moodEntries, setMoodEntries] = useState(() => {
     const saved = localStorage.getItem("moodEntries");
     return saved ? JSON.parse(saved) : [];
   });
-  const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
 
@@ -121,7 +120,7 @@ export default function MoodTracker() {
       setNote("");
     }
   };
-
+  
   const getMoodTrend = () => {
     if (averageMood >= 4)
       return "You've been feeling great lately! Keep up the positive energy!";
