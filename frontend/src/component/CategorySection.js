@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResourceCard } from './ResourceCard';
+import ResourceCard  from './ResourceCard';
 export function CategorySection({ title, description, resources, icon: Icon }) {
   return (
     <section className="mb-16 scroll-mt-16" id={title.toLowerCase().replace(/\s+/g, '-')}>

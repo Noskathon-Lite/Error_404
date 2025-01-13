@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  Heart,
-  Users,
-  BookOpen,
-  Share2,
-  ArrowRight,
-  Search,
-  Plus,
-  TrendingUp,
-} from "lucide-react";
-import { format, isToday } from "date-fns";
-const moodOptions = [
+import AllLink from "./component/AllLink";
+import { Link } from "react-router-dom";
+import Layout from './Layout'
+import { MoodeEntriesHistoryContext } from "./MoodTracker";
+import MoodEntryHistory from "./component/MoodEntryHistory";
+
+// Helper function to format dates
+export const formatDate = (date) => {
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  console.log({ date });
+  return new Date(date).toLocaleDateString("en-US", options);
+};
+
+export const moodOptions = [
   {
     emoji: "😊",
     label: "Happy",
@@ -58,19 +65,27 @@ const moodOptions = [
     ],
   },
 ];
-const Home = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [moodEntries, setMoodEntries] = useState(() => {
-    const saved = localStorage.getItem("moodEntries");
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [selectedMood, setSelectedMood] = useState(null);
+
+function Home({isPopupOpen , setIsPopupOpen , selectedMood,setSelectedMood}) {
   const [note, setNote] = useState("");
   const [averageMood, setAverageMood] = useState(0);
+  const [moodEntries, setMoodEntries] = useState(() => {
+    const saved = localStorage.getItem("moodEntries");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
+
   useEffect(() => {
     localStorage.setItem("moodEntries", JSON.stringify(moodEntries));
     calculateAverageMood();
   }, [moodEntries]);
+
   const calculateAverageMood = () => {
     if (moodEntries.length === 0) {
       setAverageMood(0);
@@ -78,11 +93,12 @@ const Home = () => {
     }
     const moodValues = moodEntries.map(
       (entry) =>
-        moodOptions.find((option) => option.emoji === entry.mood)?.value || 3,
+        moodOptions.find((option) => option.emoji === entry.mood)?.value || 3
     );
     const avg = moodValues.reduce((a, b) => a + b, 0) / moodValues.length;
     setAverageMood(avg);
   };
+
   const handleMoodSubmit = () => {
     if (selectedMood) {
       const now = new Date();
@@ -99,74 +115,31 @@ const Home = () => {
       setNote("");
     }
   };
+
   return (
-    <div
-      className="w-full min-h-screen bg-gradient-to-b from-purple-50 to-white"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop&w=2000')`,
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        backgroundBlendMode: "soft-light",
-      }}
-    >
-      <header className="w-full bg-white/90 backdrop-blur-sm border-b border-purple-100 fixed top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Heart className="h-8 w-8 text-purple-600" />
-              <span className="ml-2 text-2xl font-bold text-gray-800">
-                MANASIK
-              </span>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Resources
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Community
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                About
-              </a>
-              <a href="#" className="text-gray-600 hover:text-purple-600">
-                Contact
-              </a>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setIsPopupOpen(true)}
-                className="flex items-center gap-2 border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-full hover:bg-purple-50 transition-colors"
-              >
-                <Plus size={20} />
-                Track Mood
-              </button>
-              <button className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors">
-                Join Us
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="w-full min-h-screen bg-gradient-to-b from-purple-50 to-white">
       <main className="pt-24 relative">
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] -z-10"></div>
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-sm -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-16 md:py-24">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Community Driven Resource Library
-              <br />
-              For Mental Health
+              "Resources for Every Mood, Support for Every Mind."
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Join our supportive community in sharing and accessing valuable
               mental health resources, experiences, and knowledge.
             </p>
             <div className="flex justify-center space-x-4">
+            <Link to="/resource">
               <button className="bg-purple-600 text-white px-8 py-3 rounded-full hover:bg-purple-700 transition-colors flex items-center">
-                Browse Resources <ArrowRight className="ml-2 h-5 w-5" />
+                Browse Resources <span className="ml-2">→</span>
               </button>
+              </Link>
+              <Link to="/login">
               <button className="border-2 border-purple-600 text-purple-600 px-8 py-3 rounded-full hover:bg-purple-50 transition-colors">
                 Contribute
               </button>
+              </Link>
             </div>
           </div>
           <div className="max-w-3xl mx-auto mb-16">
@@ -176,62 +149,71 @@ const Home = () => {
                 placeholder="Search for resources, topics, or experiences..."
                 className="w-full px-6 py-4 rounded-full border-2 border-purple-100 focus:border-purple-300 focus:outline-none shadow-sm"
               />
-              <Search className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
+                🔍
+              </span>
+            </div>
+          </div>
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-purple-100">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <span className="text-purple-600">📅</span>
+                  Your Mood History
+                </h2>
+              </div>
+              {moodEntries.length > 0 && (
+                <div className="bg-purple-50 p-4 rounded-xl mb-6">
+                  <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
+                    <span className="text-purple-600">📈</span>
+                    Mood Insights
+                  </h3>
+                  <p className="text-gray-700 mb-2">
+                    {averageMood >= 4
+                      ? "You've been feeling great lately! Keep up the positive energy!"
+                      : averageMood >= 3
+                      ? "You've been maintaining a balanced mood. That's good!"
+                      : averageMood >= 2
+                      ? "Things have been a bit tough. Consider talking to someone or trying some new activities."
+                      : "Your mood has been low. Please consider reaching out to a friend or professional for support."}
+                  </p>
+                </div>
+              )}
+              <div className="space-y-4">
+                {moodEntries.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <p>No mood entries yet. Start tracking your mood!</p>
+                  </div>
+                ) : (
+                  moodEntries.map((entry, index) => (
+                    <div
+                      key={index}
+                      className="bg-white border border-purple-100 p-4 rounded-xl hover:border-purple-200 transition-colors"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-sm text-gray-500">
+                            {formatDate(new Date(entry.date))} - {entry.timeOfDay}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-2xl">{entry.mood}</span>
+                            <p className="text-gray-700">{entry.note}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <BookOpen className="h-12 w-12 text-purple-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Curated Resources</h3>
-              <p className="text-gray-600">
-                Access quality mental health resources verified by our
-                community.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <Users className="h-12 w-12 text-purple-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">
-                Supportive Community
-              </h3>
-              <p className="text-gray-600">
-                Connect with others who understand and share your journey.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-purple-100">
-              <Share2 className="h-12 w-12 text-purple-600 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Share Experiences</h3>
-              <p className="text-gray-600">
-                Contribute your knowledge and experiences to help others.
-              </p>
-            </div>
-          </div>
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">
-              Popular Topics
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                "Anxiety",
-                "Depression",
-                "Self-Care",
-                "Mindfulness",
-                "Stress Management",
-                "Relationships",
-                "Work-Life Balance",
-                "Personal Growth",
-              ].map((topic) => (
-                <a
-                  key={topic}
-                  href="#"
-                  className="bg-white px-6 py-4 rounded-xl text-center border border-purple-100 hover:border-purple-300 hover:shadow-sm transition-all"
-                >
-                  {topic}
-                </a>
-              ))}
-            </div>
+              <AllLink />
           </div>
         </div>
       </main>
+      
+      {/* Popup to track mood */}
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full">
@@ -241,7 +223,9 @@ const Home = () => {
                 <button
                   key={option.emoji}
                   onClick={() => setSelectedMood(option.emoji)}
-                  className={`text-2xl p-2 rounded-lg hover:bg-purple-50 ${selectedMood === option.emoji ? "bg-purple-100" : ""}`}
+                  className={`text-2xl p-2 rounded-lg hover:bg-purple-50 ${
+                    selectedMood === option.emoji ? "bg-purple-100" : ""
+                  }`}
                   aria-label={option.label}
                 >
                   {option.emoji}
@@ -284,10 +268,11 @@ const Home = () => {
           </div>
         </div>
       )}
+
       <footer className="bg-gray-50 border-t border-purple-100 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center mb-4">
-            <Heart className="h-6 w-6 text-purple-600" />
+            <span className="text-2xl">🧠</span>
             <span className="ml-2 text-xl font-bold text-gray-800">
               MANASIK
             </span>
