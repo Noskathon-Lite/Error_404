@@ -1,49 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { login } from './api/login';
 
-const LoginForm = ({ setUserData ,setIsLoggedIn}) => {
-  const [username, setUsername] = useState('');
+const LoginForm = ({ setIsLoggedIn }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate(); // Use navigate to redirect to profile page after login
+  const navigate = useNavigate();
 
   useEffect(() => {
     setShowForm(true);
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
 
-    // Example of user authentication (you may need to add your authentication logic here)
-    if (username && password) {
-      // Store user data in state (you can store it in context or local storage as well)
-      setUserData({ username, password });
-      setIsLoggedIn(true);
-      // Redirect to profile page after successful login
-      navigate('/profile');
-    } else {
-      alert("Please fill in both username and password!");
+    if (email && password) {
+      try {
+        const response = await login({ email, password });
+        console.log(response)
+        if(!response.ok) {
+          throw new Error (response.message || 'An error occurred during login');
+        }
+          localStorage.setItem('token', response.token);
+          setIsLoggedIn(true);
+          navigate('/profile');
+      
+      } catch (err) {
+        console.log(err)
+        setError( err.message ||'An error occurred during login');
+      }
     }
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-300">
-      <div className={`bg-white p-8 rounded-lg shadow-lg w-80 transition-transform duration-700 ease-in-out transform ${showForm ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+      <div className={`bg-white p-8 rounded-lg shadow-lg w-80 transition-transform duration-700 ease-in-out transform ${
+        showForm ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+      }`}>
+        {error && (
+          <div className="mb-4 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
+          </div>
+        )}
+        
         <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="username">
-              Username
+            <label className="block text-blue-700 text-sm font-bold mb-2" htmlFor="email">
+              Email
             </label>
             <input
-              type="text"
-              id="username"
+              type="email"
+              id="email"
               className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
-              pattern="^[a-zA-Z0-9]{3,16}$"
-              title="Username should be 3-16 characters and shouldn't include any special character!"
             />
           </div>
           <div className="mb-6">
@@ -57,8 +72,7 @@ const LoginForm = ({ setUserData ,setIsLoggedIn}) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-              title="Password must be at least 8 characters long, and include at least one letter and one number!"
+              minLength={8}
             />
           </div>
           <div className="flex justify-center">

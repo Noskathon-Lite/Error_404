@@ -16,7 +16,6 @@ import AboutUs from './component/AboutUs';
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Tracks login state
-  const [userData, setUserData] = useState({ username: "", email: "" });
 
   return (
     <div>
@@ -42,7 +41,6 @@ function App() {
           path="/login"
           element={isLoggedIn ? <Navigate to="/profile" /> : 
           <LoginForm 
-            setUserData={(data) => { setUserData(data)}}
             setIsLoggedIn={setIsLoggedIn } />
           }
         />
@@ -51,13 +49,13 @@ function App() {
         {/* Register Route */}
         <Route
           path="/register"
-          element={<RegisterForm setUserData={(data) => { setUserData(data); setIsLoggedIn(true); }} />}
+          element={<RegisterForm />}
         />
         
         {/* Profile Route */}
         <Route
           path="/profile"
-          element={isLoggedIn ? <UserProfile userData={userData} setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/login" replace />}
+          element={isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn} /> : <Navigate to="/login" replace />}
         />
         
         {/* Anonymous Post Route */}
