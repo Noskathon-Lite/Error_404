@@ -5,18 +5,12 @@ const mongoose = require('mongoose');
 const resourceSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: String,
-    type: { 
-      type: String, 
-      required: true,
-      enum: ['blog', 'video', 'image']
-    },
     basedContent: { 
       type: String, 
       required: true,
       enum: ['research', 'user']
     },
-    mediaUrl: { type: String, required: true },
-    tags: [String],
+    mediaURL: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

@@ -9,9 +9,8 @@ router.post('/', authenticateToken, async (req, res) => {
       const resource = new Resource({
         title: req.body.title,
         description: req.body.description,
-        type: req.body.type,
-        mediaUrl: req.body.mediaUrl,
-        tags: req.body.tags
+        mediaURL: req.body.mediaURL,
+        basedContent: req.body.basedContent,
       });
       const savedResource = await resource.save();
       res.status(201).json(savedResource);
@@ -22,10 +21,10 @@ router.post('/', authenticateToken, async (req, res) => {
   
   router.get('/', async (req, res) => {
     try {
-      const { type, tag } = req.query;
+      const { average ,basedContent} = req.query;
       let query = {};
-      if (type) query.type = type;
-      if (tag) query.tags = tag;
+      if (basedContent) query.basedContent = basedContent;
+      if (average) query.average = average;
       
       const resources = await Resource.find(query);
       res.json(resources);
