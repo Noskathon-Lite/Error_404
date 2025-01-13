@@ -1,48 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const AnonymousPost = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState('');
+  const [description , setDescription] = useState('');
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
-  // Fetch posts from the backend
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch('/api/posts'); // Replace with your API endpoint
-      const data = await response.json();
-      setPosts(data);
-    };
+  // Replace with your ImgBB API key
+  const IMGBB_API_KEY = '6296588d84919126fce7c294356f4bf2';
 
-    fetchPosts();
-  }, []);
+  const uploadToImgBB = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('key', IMGBB_API_KEY);
+
+    const response = await fetch('https://api.imgbb.com/1/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!data.success) throw new Error('Failed to upload image');
+    return data.data.url;
+  };
 
   // Handle new post submission
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+    setUploadError('');
 
-    const post = {
-      title,
-      content: newPost,
-      isAnonymous,
-      file: file ? URL.createObjectURL(file) : null,
-      timestamp: new Date(),
-    };
+    try {
+      let fileUrl = null;
+      if (file) {
+        fileUrl = await uploadToImgBB(file);
+      }
+      const basedContent = isAnonymous ? 'user' : 'research';
 
-    // Send post to the backend
-    await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post),
-    });
+      const post = {
+        title,
+        description: description,
+        basedContent:basedContent,
+        mediaURL: fileUrl,
+        timestamp: new Date(),
+      };
 
-    // Update the local state to show the new post
-    setPosts([post, ...posts]);
-    setNewPost('');
-    setTitle('');
-    setFile(null);
-    setIsAnonymous(false);
+      // Send post to the backend
+      const response = await fetch('https://manasikbackend-production.up.railway.app/api/resource', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(post),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+
+      // Update the local state to show the new post
+      setPosts([post, ...posts]);
+      setDescription('');
+      setTitle('');
+      setFile(null);
+      setIsAnonymous(false);
+    } catch (error) {
+      setUploadError(error.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFileSelect = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.size > 10 * 1024 * 1024) { // 10MB limit
+      setUploadError('File size must be less than 10MB');
+      return;
+    }
+    setFile(selectedFile);
+    setUploadError('');
   };
 
   return (
@@ -61,8 +101,8 @@ const AnonymousPost = () => {
 
         {/* Content Input */}
         <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder="Share your feelings or ask a question..."
           className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           rows="4"
@@ -70,12 +110,26 @@ const AnonymousPost = () => {
         ></textarea>
 
         {/* File Input */}
-        <input
-          type="file"
-          accept="image/*,video/*"
-          onChange={(e) => setFile(e.target.files[0])}
-          className="block w-full text-gray-500"
-        />
+        <div className="space-y-2">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileSelect}
+            className="block w-full text-gray-500"
+          />
+          {file && (
+            <div className="mt-2">
+              <img
+                src={URL.createObjectURL(file)}
+                alt="Preview"
+                className="max-h-48 rounded-lg"
+              />
+            </div>
+          )}
+          {uploadError && (
+            <p className="text-red-500 text-sm">{uploadError}</p>
+          )}
+        </div>
 
         {/* Anonymous Toggle */}
         <div className="flex items-center mt-3 mb-4">
@@ -94,56 +148,16 @@ const AnonymousPost = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200"
+          disabled={isUploading}
+          className={`w-full ${
+            isUploading 
+              ? 'bg-gray-400 cursor-not-allowed' 
+              : 'bg-blue-600 hover:bg-blue-700'
+          } text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200`}
         >
-          Submit
+          {isUploading ? 'Uploading...' : 'Submit'}
         </button>
       </form>
-
-      {/* Posts Display */}
-      <div className="space-y-6">
-        {posts.length === 0 ? (
-          <p className="text-center text-gray-500">No posts yet. Be the first to share!</p>
-        ) : (
-          posts.map((post, index) => (
-            <div
-              key={index}
-              className="border p-5 rounded-lg bg-white shadow-sm hover:shadow-md transition duration-200"
-            >
-              {/* Title */}
-              {post.title && <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>}
-
-           
-              <div className="text-sm text-gray-500 flex justify-between items-center mt-1">
-                <span className="font-semibold">
-                  {post.isAnonymous ? 'Anonymous' : 'User'}
-                </span>
-                <span>{new Date(post.timestamp).toLocaleString()}</span>
-              </div>
-
-              <p className="mt-3 text-gray-800">{post.content}</p>
-
-              {post.file && (
-                <div className="mt-4">
-                  {post.file.endsWith('.mp4') || post.file.endsWith('.webm') ? (
-                    <video
-                      src={post.file}
-                      controls
-                      className="w-full rounded-md shadow-md"
-                    ></video>
-                  ) : (
-                    <img
-                      src={post.file}
-                      alt="Uploaded content"
-                      className="w-full rounded-md shadow-md"
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          ))
-        )}
-      </div>
     </div>
   );
 };
