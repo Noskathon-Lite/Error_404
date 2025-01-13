@@ -7,8 +7,6 @@ import Layout from "../Layout";
 function AboutUs() {
   return (
     <Layout>
-        <h2 className="text-3xl text-black strok-slate-50 font-extrabold text-center">
-    <>
         <h2 className="text-3xl  text-black strok-slate-50 font-bold">
           Our Mission
         </h2>
@@ -99,7 +97,7 @@ function AboutUs() {
           </div>
           
       </section>
-    </>
+    </Layout>
   );
 }
 
